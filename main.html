@@ -1,16 +1,76 @@
 <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Form</title>
+  </head>
+  <body>
+    <h1>Login Form</h1>
+    <form id="loginForm">
+      <input
+        type="text"
+        id="username"
+        placeholder="Username"
+        required
+      />
+      <input
+        type="password"
+        id="password"
+        placeholder="Password"
+        required
+      />
+      <label for="checkbox">
+        <input type="checkbox" id="checkbox" /> Remember me
+      </label>
+      <input type="submit" id="submit" value="Submit" />
+    </form>
+    <button id="existing" style="display: none">Login as existing user</button>
 
-<html>
+    <script>
+      // your JS code here.
+      const form = document.getElementById("loginForm");
+      const submitButton = document.getElementById("submit");
+      const existingButton = document.getElementById("existing");
+      const checkbox = document.getElementById("checkbox");
+      const usernameField = document.getElementById("username");
+      const passwordField = document.getElementById("password");
 
-<head>
-	<link rel="stylesheet" href="styles.css">
-</head>
+      // Check if there are saved credentials in local storage
+      const savedUsername = localStorage.getItem("username");
+      const savedPassword = localStorage.getItem("password");
 
-<body>
-	<!-- the entire body must be written by student -->
-    <script type="text/javascript" src="./script.js">
-</script>
+      // If saved credentials exist, show the "Login as existing user" button
+      if (savedUsername && savedPassword) {
+        existingButton.style.display = "block";
+      }
 
-</body>
+      // Submit form functionality
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        
+        const username = usernameField.value;
+        const password = passwordField.value;
 
+        if (checkbox.checked) {
+          // Save username and password to local storage
+          localStorage.setItem("username", username);
+          localStorage.setItem("password", password);
+        } else {
+          // Remove saved credentials from local storage
+          localStorage.removeItem("username");
+          localStorage.removeItem("password");
+        }
+
+        alert(`Logged in as ${username}`);
+      });
+
+      // "Login as existing user" button functionality
+      existingButton.addEventListener("click", () => {
+        if (savedUsername && savedPassword) {
+          alert(`Logged in as ${savedUsername}`);
+        }
+      });
+    </script>
+  </body>
 </html>
